@@ -155,9 +155,14 @@
                     <div class="m-3 mb-0 card bg-dark">
                         <div class="p-3 ">
                             <span class="fw-bold fs-5 text-white">Total Pengeluaran Bulan Ini</span>
-                            <h2 class="fw-bold text-white"><span id="totalBulan">
+                            <h2 class="fw-bold text-white">
+                                <span id="totalBulan">
                                     <!-- / -->
-                                </span></h2>
+                                </span>
+                            </h2>
+                            <div class="w-100 d-flex justify-content-end">
+                                <span class="text-white" id="sumDay"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -242,6 +247,19 @@
                     const filterMount = `${year}-${month}`; // Format YYYY-MM-DD
                     console.log("filterDate (hari ini):", filterMount);
 
+                    // Iterasi melalui setiap item di data
+                    // const filterMount = "2024-10";
+                    const uniqueDays = new Set();                    
+                    for (let key in response) {
+                        if (response[key].createM === filterMount) {
+                            uniqueDays.add(response[key].create); // Menambahkan ke Set untuk menghindari duplikasi
+                        }
+                    }
+                    const uniqueCount = uniqueDays.size;
+                    // console.log(uniqueCount);
+                    $("#sumDay").append(`${uniqueCount} Days`);
+
+
                     // // Mendapatkan hari dalam bentuk string
                     // const daysOfWeek = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
                     // const dayOfWeek = daysOfWeek[today.getDay()];
@@ -266,6 +284,7 @@
             });
         }
 
+        
 
         function formatRupiah(angka) {
             const formatter = new Intl.NumberFormat('id-ID', {
