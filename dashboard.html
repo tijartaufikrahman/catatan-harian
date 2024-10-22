@@ -13,7 +13,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.jpg">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/animate.css">
-    <link rel="stylesheet" href="assets/css/dataTables.bootstrap4.min.css">
+    <!-- <link rel="stylesheet" href="assets/css/dataTables.bootstrap4.min.css"> -->
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -150,18 +150,39 @@
                 </div>
             </div>
             
-            <div class="row">
+            <div class="row" style="cursor: pointer;">
                 <div class="col-12 col-md-6">
-                    <div class="m-3 mb-0 card bg-dark">
-                        <div class="p-3 ">
-                            <span class="fw-bold fs-5 text-white">Total Pengeluaran Bulan Ini</span>
-                            <h2 class="fw-bold text-white">
-                                <span id="totalBulan">
-                                    <!-- / -->
-                                </span>
-                            </h2>
-                            <div class="w-100 d-flex justify-content-end">
-                                <span class="text-white" id="sumDay"></span>
+                    <div class="accordion" id="accordionExample">
+                        <div class="m-3 accordion-item">
+                            <div class=" mb-0 card bg-dark " data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                <div class="p-3 ">
+                                    <span class="fw-bold fs-5 text-white">Total Pengeluaran Bulan Ini</span>
+                                    <h2 class="fw-bold text-white">
+                                        <span id="totalBulan">
+                                            <!-- / -->                                    
+                                        </span>
+                                    </h2>
+                                    <div class="w-100 d-flex justify-content-end">
+                                        <span class="text-white" id="sumDay"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th style="font-weight: 500;">No</th>
+                                                <th style="font-weight: 500;">Date</th>
+                                                <th style="font-weight: 500;">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="dataDayPerMount">
+                                            <!--  -->
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -236,6 +257,7 @@
                 success: function (response) {
                     // console.log(response); // Cek respons data            
                     let sum = 0;
+                    let total= 0;
                     let no = 1;
                     let row = "";
 
@@ -249,15 +271,69 @@
 
                     // Iterasi melalui setiap item di data
                     // const filterMount = "2024-10";
-                    const uniqueDays = new Set();                    
+                    const uniqueDays = [];
                     for (let key in response) {
                         if (response[key].createM === filterMount) {
-                            uniqueDays.add(response[key].create); // Menambahkan ke Set untuk menghindari duplikasi
+                            // Cek apakah nilai `create` sudah ada di array atau belum
+                            if (!uniqueDays.some(day => day.create === response[key].create)) {
+                                uniqueDays.push({ create: response[key].create }); // Menambahkan object ke array jika belum ada
+                            }
                         }
                     }
-                    const uniqueCount = uniqueDays.size;
-                    // console.log(uniqueCount);
+                    const uniqueCount = uniqueDays.length;
+                    // Menampilkan jumlah dan array of objects dengan nilai unik
+                    // console.log("Jumlah nilai unik:", uniqueCount);
+                    // console.log("Nilai unik:", uniqueDays);
+
+                    console.log(uniqueDays);
                     $("#sumDay").append(`${uniqueCount} Days`);
+
+
+                    let dataDayPerMount =[];
+
+                    uniqueDays.forEach(day => {
+                        const formattedDate = formatDate(day.create);
+                        // console.log(`Format: ${formattedDate}`);
+                        total = 0; // reset total
+                        $.each(response, function (index, item) {
+                            if (day.create == item.create) {
+                                const totalPerDay = parseFloat(item.nominal);
+                                total += totalPerDay;                            
+                            }
+                        });
+                        // console.log(day.create);
+                        // console.log(total);
+                        dataDayPerMount.push(
+                            { 
+                                create: day.create ,
+                                subTotal : total,
+                                format : formattedDate
+                            });
+
+                    });
+                    console.log(dataDayPerMount);
+
+                    let rowDayPerMount ="";
+                    let tand = 0;
+                    $.each(dataDayPerMount, function(i, data){
+                        
+                        let bg = (data.subTotal > tand) ? (tand = data.subTotal, "table-warning") : "";
+
+                        rowDayPerMount += `
+                                            <tr class="${bg}">
+                                                <td>${i +1}</td>
+                                                <td>${data.format}</td>
+                                                <td>${formatRupiah(data.subTotal)}</td>
+                                            </tr>
+                        `; 
+                    });
+
+                    $("#dataDayPerMount").append(rowDayPerMount);
+
+
+
+
+                    
 
 
                     // // Mendapatkan hari dalam bentuk string
@@ -292,6 +368,23 @@
                 currency: 'IDR',
             });
             return formatter.format(angka);
+        }
+        // Fungsi untuk mendapatkan nama hari dan format tanggal
+        function formatDate(dateString) {
+            const daysOfWeek = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+            const monthsOfYear = [
+                "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+            ];
+            
+            const date = new Date(dateString); // Mengonversi string menjadi objek Date
+            const dayIndex = date.getDay(); // Mendapatkan indeks hari
+            const day = date.getDate(); // Mendapatkan tanggal (hari dalam bulan)
+            const monthIndex = date.getMonth(); // Mendapatkan indeks bulan
+            const year = date.getFullYear(); // Mendapatkan tahun
+
+            // Mengembalikan format yang diinginkan
+            return `${daysOfWeek[dayIndex]}, ${day} ${monthsOfYear[monthIndex]} ${year}`;
         }
     </script>
 
