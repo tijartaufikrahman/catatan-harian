@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <meta name="description" content="POS - Bootstrap Admin Template">
+    <meta name="keywords"
+        content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern,  html5, responsive">
+    <meta name="author" content="Dreamguys - Bootstrap Admin Template">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Dreams Pos admin template</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/img/favicon.jpg">
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/animate.css">
+    <link rel="stylesheet" href="../assets/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
+    <style>
+        #fokus {
+            color: #ff9f43;
+        }
+        table th {
+            width: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="global-loader">
+        <div class="whirly-loader"></div>
+    </div>
+    <div class="main-wrapper">
+        <div class="header">
+            <div class="header-left active">
+                <a href="index.html" class="logo">
+                    <img src="../assets/img/logo.png" alt="">
+                </a>
+                <a href="index.html" class="logo-small">
+                    <img src="../assets/img/logo-small.png" alt="">
+                </a>
+                <a id="toggle_btn" href="javascript:void(0);"></a>
+            </div>
+            <a id="mobile_btn" class="mobile_btn" href="#sidebar">
+                <span class="bar-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            </a>
+            <ul class="nav user-menu">
+
+                <li class="nav-item dropdown has-arrow main-drop">
+                    <a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
+                        <span class="user-img">
+                            <img src="../assets/img/profiles/avator1.jpg" alt="">
+                            <span class="status online"></span>
+                        </span>
+                    </a>
+                    <div class="dropdown-menu menu-drop-user">
+                        <div class="profilename">
+                            <div class="profileset">
+                                <span class="user-img">
+                                    <img src="../assets/img/profiles/avator1.jpg" alt="">
+                                    <span class="status online"></span>
+                                </span>
+                                <div class="profilesets">
+                                    <h6>John Doe</h6>
+                                    <h5>Admin</h5>
+                                </div>
+                            </div>
+                            <hr class="m-0">
+                            <a class="dropdown-item" href="profile.html">
+                                <i class="me-2" data-feather="user"></i> My Profile </a>
+                            <a class="dropdown-item" href="generalsettings.html">
+                                <i class="me-2" data-feather="settings"></i>Settings </a>
+                            <hr class="m-0">
+                            <a class="dropdown-item logout pb-0" href="signin.html">
+                                <img src="../assets/img/icons/log-out.svg" class="me-2" alt="img">Logout </a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="dropdown mobile-user-menu">
+                <a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i class="fa fa-ellipsis-v"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="profile.html">My Profile</a>
+                    <a class="dropdown-item" href="generalsettings.html">Settings</a>
+                    <a class="dropdown-item" href="signin.html">Logout</a>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li>
+                            <a href="../dashboard.html">
+                                <span> Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="submenu ">
+                            <a href="javascript:void(0);" class="rounded">
+                                <span> Create Note</span>
+                                <span class="menu-arrow text-light"></span>
+                            </a>
+                            <ul>
+                                <li>
+                                    <a href="create.html">Create Note</a>
+                                </li>
+                                <li>
+                                    <a href="category.html">Create Category</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="submenu ">
+                            <a href="javascript:void(0);" class="bg-secondary rounded">
+                                <span class="text-light"> Show Note</span>
+                                <span class="menu-arrow text-light"></span>
+                            </a>
+                            <ul>
+                                <li>
+                                    <a id="fokus" href="show.html">Today's Expense Notes</a>
+                                </li>
+                                <li>
+                                    <a href="noteAll.html">Expense Records all</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="page-wrapper">            
+            <div class="content" style="overflow: scroll;">
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="p-4 bg-white shadow-sm rounded-3">
+                            <h2>Upload File</h2>
+                            <div style="width: 100%;">
+                                <progress value="0" max="100" id="uploadProgress" class="w-100">0%</progress>
+                            </div>
+                    
+                            <input type="text" id="fileDescription" class="form-control mt-3" placeholder="Keterangan file">
+                            <input type="file" name="upload" id="uploadButton" class="form-control mt-3">
+                            <button id="uploadSubmitButton" class="btn btn-primary mt-3">Upload</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-5">
+                    <div class="col-12">
+                        <div class="px-4 shadow-sm rounded-top-3" style="background-color: #fbfbfb;">
+                            <h5 class="py-3">Daftar File</h5>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="px-4 pb-3 pt-2 bg-white shadow-sm rounded-bottom-3">                            
+                            <div class="table-responsive">
+                                <table id="fileTable" class="table w-100" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th>Keterangan</th>
+                                            <th>File</th>
+                                            <th>Waktu Unggah</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="fileList">
+                                        <!-- Daftar file akan ditampilkan di sini -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Library Firebase -->
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script> 
+                            
+    <!-- Library Template Dashboard-->
+    <script src="../assets/js/jquery-3.6.0.min.js"></script>
+    <script src="../assets/js/jquery.dataTables.min.js"></script>
+    <script src="../assets/js/dataTables.bootstrap4.min.js"></script>    
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/feather.min.js"></script>
+    <script src="../assets/js/jquery.slimscroll.min.js"></script>
+    <script src="../assets/plugins/apexchart/apexcharts.min.js"></script>
+    <script src="../assets/plugins/apexchart/chart-data.js"></script>
+    <script src="../assets/js/script.js"></script>
+
+
+    <script>
+        // Konfigurasi Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBnhHjZujK5TDL60srU22xkj0-p4NMp2pw",
+            authDomain: "catatan-harian-bcc18.firebaseapp.com",
+            databaseURL: "https://catatan-harian-bcc18-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "catatan-harian-bcc18",
+            storageBucket: "catatan-harian-bcc18.appspot.com",
+            messagingSenderId: "850427772761",
+            appId: "1:850427772761:web:15979278c68871d3385648",
+            measurementId: "G-MVR569Q2N7"
+        };
+
+        // Inisialisasi Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        var storage = firebase.storage();
+        var database = firebase.database();
+        var progress = document.getElementById('uploadProgress');
+        var button = document.getElementById('uploadButton');
+        var uploadSubmitButton = document.getElementById('uploadSubmitButton');
+        var fileDescriptionInput = document.getElementById('fileDescription');
+        var fileList = document.getElementById('fileList');
+        var file; // Variabel untuk menyimpan file yang dipilih
+
+        // Inisialisasi DataTable
+        var fileTable = $('#fileTable').DataTable();
+
+
+        // Mengambil file saat tombol upload ditekan
+        button.addEventListener('change', function(e) {
+            file = e.target.files[0]; // Simpan file yang dipilih
+        });
+
+        // Upload file ke Firebase Storage
+        uploadSubmitButton.addEventListener('click', function() {
+            if (!file) {
+                alert('Silakan pilih file terlebih dahulu.');
+                return;
+            }
+
+            var fileName = file.name; // Gunakan nama file asli
+
+            // Cek apakah nama file sudah ada di database
+            database.ref('uploadedFiles').orderByChild('name').equalTo(fileName).once('value').then(snapshot => {
+                if (snapshot.exists()) {
+                    alert('Nama file sudah ada, silakan gunakan nama file yang lain.');
+                    return; // Hentikan proses jika nama file sudah ada
+                }
+
+                var storageRef = storage.ref('rahasiaSk/' + fileName);
+                var uploadTask = storageRef.put(file);
+
+                uploadTask.on('state_changed', loadUpload, errUpload, () => {
+                    completeUpload(fileName); // Panggil fungsi ini hanya jika upload berhasil
+                });
+
+                function loadUpload(snapshot) {
+                    var percent = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    progress.value = percent;
+                }
+
+                function errUpload(err) {
+                    console.error('Error uploading file:', err);
+                }
+            });
+        });
+
+        // Fungsi yang dijalankan setelah upload selesai
+        function completeUpload(fileName) {
+            console.log('File berhasil diunggah!');
+            alert('File berhasil diunggah!');
+
+            // Simpan ke database hanya jika file berhasil diunggah
+            saveFileToDatabase(fileName, fileDescriptionInput.value);
+            listFiles(); // Update daftar file setelah upload berhasil
+
+            // Reset file dan progress setelah upload
+            file = null;
+            progress.value = 0;
+            fileDescriptionInput.value = '';
+            button.value = ''; // Kosongkan input file
+            location.reload(); 
+        }
+
+        // Simpan nama file, keterangan, dan waktu unggah ke dalam Firebase Realtime Database
+        function saveFileToDatabase(fileName, description) {
+            const fileRef = database.ref('uploadedFiles').push();
+            fileRef.set({
+                createdAt: new Date().toISOString(), // Menyimpan waktu unggah dalam format ISO
+                name: fileName,
+                description: description,
+                timestamp: Date.now()
+            }).catch(error => {
+                console.error('Error saving file name:', error);
+            });
+        }
+
+        // Fungsi untuk menampilkan semua file di dalam folder 'rahasiaSk'
+        function listFiles() {
+            var listRef = storage.ref('rahasiaSk/');
+
+            // Mengambil semua file dalam folder
+            listRef.listAll().then(function(result) {
+                // Kosongkan daftar sebelum menampilkan
+                fileList.innerHTML = '';
+
+                // Loop untuk setiap file yang ada
+                result.items.forEach(function(fileRef) {
+                    // Buat link untuk setiap file
+                    fileRef.getDownloadURL().then(function(url) {
+                        // Ambil data file dari Realtime Database
+                        getFileData(fileRef.name, url);
+                    });
+                });
+            }).catch(function(error) {
+                console.log('Gagal mendapatkan daftar file:', error);
+            });
+        }
+
+        // Mengambil data file dari Firebase Realtime Database
+        function getFileData(fileName, url) {
+            const fileRef = database.ref('uploadedFiles');
+            fileRef.orderByChild('name').equalTo(fileName).once('value', function(snapshot) {
+                snapshot.forEach(function(childSnapshot) {
+                    const fileData = childSnapshot.val();
+                    const fileKey = childSnapshot.key; // Ambil key dari file di database
+                    const createdAt = new Date(fileData.createdAt).toLocaleString(); // Format waktu
+
+                    // Menyusun HTML untuk setiap file dan menambahkannya ke fileList
+                    fileTable.row.add([
+                        fileData.description || 'Tanpa Keterangan',
+                        `<a href="${url}" target="_blank">${fileName}</a>`,
+                        createdAt,
+                        `<button class="btn btn-danger" onclick="confirmDeleteFile('${fileName}', '${fileKey}')">Hapus</button>`
+                    ]).draw();
+                });
+            });
+        }
+
+        // Konfirmasi sebelum menghapus file
+        function confirmDeleteFile(fileName, fileKey) {
+            if (confirm('Apakah Anda yakin ingin menghapus file ini?')) {
+                deleteFile(fileName, fileKey);
+            }
+        }
+
+        // Fungsi untuk menghapus file dari Firebase Storage dan Database
+        function deleteFile(fileName, fileKey) {
+            // Hapus file dari Firebase Storage
+            var storageRef = storage.ref('rahasiaSk/' + fileName);
+            storageRef.delete().then(function() {
+                console.log('File berhasil dihapus dari storage');
+
+                // Hapus data dari Firebase Realtime Database
+                database.ref('uploadedFiles/' + fileKey).remove().then(function() {
+                    console.log('File berhasil dihapus dari database');
+                    alert('File berhasil dihapus');
+                    fileTable.clear().draw(); // Kosongkan DataTable
+                    listFiles(); // Update daftar file setelah dihapus
+                }).catch(function(error) {
+                    console.error('Error removing file from database:', error);
+                });
+            }).catch(function(error) {
+                console.error('Error deleting file from storage:', error);
+            });
+        }
+
+        // Tampilkan file saat halaman pertama kali dibuka
+        listFiles();
+    </script>
+</body>
+
+</html>
