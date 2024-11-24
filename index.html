@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <div>
+    <!-- <div>
         <h2>Tambah Data Baru</h2>
         <form id="formMyNote" >
             <label for="category">Category:</label>
@@ -26,41 +26,45 @@
 
             <input type="submit" value="Simpan">
         </form>
-    </div>
+    </div> -->
 
     <script>
 
-        $('#formMyNote').on('submit', function(e) {
-            e.preventDefault();
-            firebase();                
-        });
+        // Redirect ke laman web lain
+        window.location.href = "content/storage.html";
 
-        function firebase() {
-            var category = $("#category").val();
-            var note = $("#note").val();
-            var nominal = $("#nominal").val();
 
-            let data = {
-                category: category,
-                note: note,
-                nominal : nominal
+        // $('#formMyNote').on('submit', function(e) {
+        //     e.preventDefault();
+        //     firebase();                
+        // });
 
-            };
+        // function firebase() {
+        //     var category = $("#category").val();
+        //     var note = $("#note").val();
+        //     var nominal = $("#nominal").val();
 
-            $.ajax({
-                url: 'https://catatan-harian-bcc18-default-rtdb.asia-southeast1.firebasedatabase.app/Catatan.json',
-                type: 'POST',
-                contentType: 'application/json', // Specify content type
-                data: JSON.stringify(data), // Convert data to JSON string
+        //     let data = {
+        //         category: category,
+        //         note: note,
+        //         nominal : nominal
 
-                success: function(response) {
-                    console.log(response);
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error occurred:', error);
-                }
-            });
-        }
+        //     };
+
+        //     $.ajax({
+        //         url: 'https://catatan-harian-bcc18-default-rtdb.asia-southeast1.firebasedatabase.app/Catatan.json',
+        //         type: 'POST',
+        //         contentType: 'application/json', // Specify content type
+        //         data: JSON.stringify(data), // Convert data to JSON string
+
+        //         success: function(response) {
+        //             console.log(response);
+        //         },
+        //         error: function(xhr, status, error) {
+        //             console.error('Error occurred:', error);
+        //         }
+        //     });
+        // }
     </script>
 </body>
 
