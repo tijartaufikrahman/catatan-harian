@@ -168,8 +168,17 @@
                                 </div>
                             </div>
                             
-                            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                <div class="accordion-body d-flex justify-content-center">
+                            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">                                
+                                <div class="mt-3 " style="background-color: #F2F5F6;">
+                                    <table class="table mx-2 mx-md-4" >
+                                        <tr>
+                                            <th class="fs-5" style="font-weight: 500;">Rata-Rata :</th>
+                                            <!-- <th>:</th> -->
+                                            <th class="fs-5" style="font-weight: 500;"><span id="mean"></span> / Hari</th>                                            
+                                        </tr>                                        
+                                    </table>
+                                </div>
+                                <div class="accordion-body d-flex justify-content-center">                                    
                                     <table class="table table-bordered" style="width: 100%;">
                                         <thead>
                                             <tr>
@@ -315,10 +324,13 @@
 
                     let rowDayPerMount ="";
                     let tand = 0;
-                    $.each(dataDayPerMount, function(i, data){
-                        
-                        let bg = (data.subTotal > tand) ? (tand = data.subTotal, "table-warning") : "";
+                    let sumTotal = 0;
+                    let m = 1;
 
+                    $.each(dataDayPerMount, function(i, data){
+                        m = i + 1;
+                        sumTotal += data.subTotal;
+                        let bg = (data.subTotal > tand) ? (tand = data.subTotal, "table-warning") : "";
                         rowDayPerMount += `
                                             <tr class="${bg}">
                                                 <td>${i +1}</td>
@@ -328,6 +340,7 @@
                         `; 
                     });
 
+                    $("#mean").append(formatRupiah(sumTotal / m));
                     $("#dataDayPerMount").append(rowDayPerMount);
 
 
