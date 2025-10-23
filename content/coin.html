@@ -444,7 +444,7 @@
               url: 'https://catatan-harian-bcc18-default-rtdb.asia-southeast1.firebasedatabase.app/Coin.json',
               method: 'GET',
               success: function(data) {
-                const todayStr = new Date().toISOString().slice(0, 10);
+                const todayStr = new Date(new Date().getTime() + (7 * 60 * 60 * 1000)).toISOString().slice(0, 10);
                 const $btn = $('#test');
     
                 if (data) {
@@ -517,7 +517,7 @@
                 contentType: 'application/json',
                 data: JSON.stringify({
                     // date: "2025-07-10",  
-                    date: new Date().toISOString().slice(0, 10),  
+                    date: new Date(new Date().getTime() + (7 * 60 * 60 * 1000)).toISOString().slice(0, 10),
                     koin: 4000
                 }),
                 success: function (res) {
