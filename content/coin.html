@@ -358,11 +358,64 @@
                       <div class="d-flex justify-content-center">
                         <button id="test" class="btn mt-2 fw-semibold text-white">Tes Apakah Ada Data Hari Ini</button>
                       </div>
+
+                      
+                      
                     </div>
+                  </div>
+                  <div class="d-flex justify-content-end" >                    
+                    <button id="s" class="btn mt-2 fw-semibold text-white" style="background-color: #9EA4AA;"
+                    data-bs-toggle="modal" data-bs-target="#modalTambahKoin">
+                    |||</button>
                   </div>
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalTambahKoin" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg border-0 rounded-4">
+
+            <div class="modal-header btext-white rounded-top-4" style="background-color: #F0F2F4;">
+                <h5 class="">
+                Tambah Data Koin
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <form id="formKoin">
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Tanggal</label>
+                    <input type="date" class="form-control" id="tanggalInput" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Jumlah Koin</label>
+                    <input type="number" class="form-control" id="koinInput" placeholder="Masukkan jumlah koin" value="4000" disabled required>
+                </div>
+
+                </form>
+
+                <div id="statusKirim" class="small text-center mt-2"></div>
+
+            </div>
+
+            <div class="modal-footer d-flex justify-content-lg-between">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button class="btn btn-primary" id="btnSimpanKoin">
+                Simpan
+                </button>
+            </div>
+
+            </div>
+        </div>
+    </div>
+
+
     <script src="../assets/js/jquery-3.6.0.min.js"></script>
     <script src="../assets/js/feather.min.js"></script>
     <script src="../assets/js/jquery.slimscroll.min.js"></script>
@@ -444,7 +497,7 @@
               url: 'https://catatan-harian-bcc18-default-rtdb.asia-southeast1.firebasedatabase.app/Coin.json',
               method: 'GET',
               success: function(data) {
-                const todayStr = new Date(new Date().getTime() + (7 * 60 * 60 * 1000)).toISOString().slice(0, 10);
+                const todayStr = new Date().toISOString().slice(0, 10);
                 const $btn = $('#test');
     
                 if (data) {
@@ -517,7 +570,7 @@
                 contentType: 'application/json',
                 data: JSON.stringify({
                     // date: "2025-07-10",  
-                    date: new Date(new Date().getTime() + (7 * 60 * 60 * 1000)).toISOString().slice(0, 10),
+                    date: new Date().toISOString().slice(0, 10),  
                     koin: 4000
                 }),
                 success: function (res) {
@@ -545,6 +598,47 @@
         // Jalankan
         initCalendar();
       </script>
+
+
+<script>
+$("#btnSimpanKoin").click(function () {
+
+    let tanggal = $("#tanggalInput").val();
+    let koin = $("#koinInput").val();
+
+    if (tanggal === "" || koin === "") {
+        $("#statusKirim").html('<span class="text-danger">Isi semua field!</span>');
+        return;
+    }
+
+    let data = {
+        date: tanggal,
+        koin: parseInt(koin)
+    };
+
+    $("#statusKirim").html('<span class="text-info">Mengirim...</span>');
+
+    $.ajax({
+        url: "https://catatan-harian-bcc18-default-rtdb.asia-southeast1.firebasedatabase.app/Coin.json",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+
+        success: function (res) {
+            $("#statusKirim").html('<span class="text-success">Berhasil ✔</span>');
+
+            setTimeout(function () {
+                location.reload(); // reload halaman
+            }, 600);
+        },
+
+        error: function () {
+            $("#statusKirim").html('<span class="text-danger">Gagal kirim ❌</span>');
+        }
+    });
+
+});
+</script>
 
     
 </body>
