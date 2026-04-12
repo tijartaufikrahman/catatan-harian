@@ -511,8 +511,16 @@
         if (targetId === "nominal") {
             // ambil angka aja
             let angka = text.match(/\d+/g);
+
             if (angka) {
-                document.getElementById("nominal").value = parseInt(angka.join("")) * 1000;
+                let value = parseInt(angka.join(""));
+
+                // kalau ada kata "ribu"
+                if (text.includes("ribu")) {
+                    value = value * 1000;
+                }
+
+                document.getElementById("nominal").value = value;
             }
         }
     };
