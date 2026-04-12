@@ -322,7 +322,7 @@
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="note" required>
                                     <button type="button" class="btn btn-outline-primary mic-btn" onclick="startVoice('note')">
-                                    <i class="fa fa-microphone"></i>
+                                    <i class="fa fa-microphone mic-icon"></i>
                                     </button>
                                 </div>
                             </div>                         
@@ -332,7 +332,7 @@
                                 <div class="input-group">
                                     <input type="number" class="form-control" id="nominal" required>
                                     <button type="button" class="btn btn-outline-success mic-btn" onclick="startVoice('nominal')">
-                                    <i class="fa fa-microphone"></i>
+                                    <i class="fa fa-microphone mic-icon"></i>
                                     </button>
                                 </div>
                             </div>
@@ -491,33 +491,55 @@
 
 
 <script>
-    function startVoice(targetId) {
+    let recognition;
+let isRecording = false;
+let activeBtn = null;
+
+function startVoice(targetId) {
     const btn = event.currentTarget;
-    btn.classList.add("mic-recording");
+    const icon = btn.querySelector(".mic-icon");
 
-    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-    recognition.lang = "id-ID";
+    // 👉 kalau lagi recording → STOP
+    if (isRecording) {
+        recognition.stop();
 
-    recognition.onresult = function(event) {
+        icon.classList.remove("fa-stop");
+        icon.classList.add("fa-microphone");
+
         btn.classList.remove("mic-recording");
 
+        isRecording = false;
+        return;
+    }
+
+    // 👉 START recording
+    recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = "id-ID";
+
+    activeBtn = btn;
+    isRecording = true;
+
+    // ubah icon jadi STOP
+    icon.classList.remove("fa-microphone");
+    icon.classList.add("fa-stop");
+
+    btn.classList.add("mic-recording");
+
+    recognition.onresult = function(event) {
         let text = event.results[0][0].transcript.toLowerCase();
-        console.log("Voice:", text);
 
         if (targetId === "note") {
             document.getElementById("note").value = text;
         }
 
         if (targetId === "nominal") {
-            // ambil angka aja
             let angka = text.match(/\d+/g);
 
             if (angka) {
                 let value = parseInt(angka.join(""));
 
-                //// kalau ada kata "ribu"
                 if (text.includes("ribu")) {
-                    value = value * 1000;
+                    value *= 1000;
                 }
 
                 document.getElementById("nominal").value = value;
@@ -525,8 +547,18 @@
         }
     };
 
-    recognition.onend = () => {
-        btn.classList.remove("mic-recording");
+    recognition.onend = function () {
+        // reset kalau berhenti otomatis
+        if (activeBtn) {
+            let icon = activeBtn.querySelector(".mic-icon");
+
+            icon.classList.remove("fa-stop");
+            icon.classList.add("fa-microphone");
+
+            activeBtn.classList.remove("mic-recording");
+        }
+
+        isRecording = false;
     };
 
     recognition.start();
